@@ -10,7 +10,7 @@ namespace NerdStore.Catalog.Domain
         public decimal Value { get; private set; }
         public DateTime EntryDate { get; set; }
         public string Image { get; private set; }
-        public int Quantity { get; private set; }
+        public int QuantityInStock { get; private set; }
         public Guid CategoryId { get; private set; }
         public Dimension Dimension { get; private set; }
         public Category Category { get; private set; }
@@ -55,7 +55,7 @@ namespace NerdStore.Catalog.Domain
             if (quantity < 0) throw new DomainException("Negative values is not supported");
             if (!HasAvailableInStock(quantity)) throw new DomainException("Insufficient Stock");
 
-            Quantity -= quantity;
+            QuantityInStock -= quantity;
         }
 
         public void AddToStock(int quantity)
@@ -65,12 +65,12 @@ namespace NerdStore.Catalog.Domain
                 throw new DomainException("Negative values is not supported");
             }
 
-            Quantity += quantity;
+            QuantityInStock += quantity;
         }
 
         public bool HasAvailableInStock(int quantity)
         {
-            return Quantity > 0 && Quantity >= quantity;
+            return QuantityInStock > 0 && QuantityInStock >= quantity;
         }
 
         public void Validate()
