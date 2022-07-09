@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NerdStore.Catalog.Domain
+﻿namespace NerdStore.Catalog.Domain
 {
     internal class StockService : IStockService
     {
@@ -28,10 +22,18 @@ namespace NerdStore.Catalog.Domain
 
         public async Task<bool> AddToStock(Guid productId, int quantity)
         {
+            var product = await _productRepository.GetById(productId);
+            if (product is null) return false;
+
+            product.AddToStock(quantity);
+
+            _productRepository.Update(product);
+            return await _productRepository.UnitOfWork.Commit();
         }
 
         public void Dispose()
         {
+            _productRepository.Dispose();
         }
     }
 }
