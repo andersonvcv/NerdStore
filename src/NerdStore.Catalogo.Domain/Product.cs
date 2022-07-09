@@ -53,7 +53,7 @@ namespace NerdStore.Catalog.Domain
         public void RemoveFromStock(int quantity)
         {
             if (quantity < 0) throw new DomainException("Negative values is not supported");
-            if (!IsQuantityAvailableInStock(quantity)) throw new DomainException("Insufficient Stock");
+            if (!HasAvailableInStock(quantity)) throw new DomainException("Insufficient Stock");
 
             Quantity -= quantity;
         }
@@ -68,7 +68,7 @@ namespace NerdStore.Catalog.Domain
             Quantity += quantity;
         }
 
-        public bool IsQuantityAvailableInStock(int quantity)
+        public bool HasAvailableInStock(int quantity)
         {
             return Quantity > 0 && Quantity >= quantity;
         }
