@@ -6,7 +6,7 @@ namespace NerdStore.Catalog.Domain
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product?> GetById(Guid id);
-        Task<IEnumerable<Product>> GetByCategory(Guid categoryId);
+        Task<IEnumerable<Product>> GetByCategory(int code);
 
         Task<IEnumerable<Category>> GetCategories();
 
