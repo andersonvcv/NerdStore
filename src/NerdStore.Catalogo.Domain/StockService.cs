@@ -3,7 +3,7 @@ using NerdStore.Core.MediatR;
 
 namespace NerdStore.Catalog.Domain
 {
-    internal class StockService : IStockService
+    public class StockService : IStockService
     {
         private readonly IProductRepository _productRepository;
         private readonly IMediatRHandler _mediatRHandler;

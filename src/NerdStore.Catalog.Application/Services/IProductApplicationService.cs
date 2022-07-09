@@ -2,7 +2,7 @@
 
 namespace NerdStore.Catalog.Application.Services
 {
-    internal interface IProductApplicationService : IDisposable
+    public interface IProductApplicationService : IDisposable
     {
         Task<IEnumerable<ProductDTO>> GetProducts();
         Task<ProductDTO> GetById(Guid id);

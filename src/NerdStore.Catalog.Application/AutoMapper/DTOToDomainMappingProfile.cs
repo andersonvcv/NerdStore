@@ -4,7 +4,7 @@ using NerdStore.Catalog.Domain;
 
 namespace NerdStore.Catalog.Application.AutoMapper
 {
-    internal class DTOToDomainMappingProfile : Profile
+    public class DTOToDomainMappingProfile : Profile
     {
         public DTOToDomainMappingProfile()
         {

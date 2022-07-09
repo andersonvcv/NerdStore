@@ -5,7 +5,7 @@ using NerdStore.Core.DomainObjects;
 
 namespace NerdStore.Catalog.Application.Services
 {
-    internal class ProductApplicationService : IProductApplicationService
+    public class ProductApplicationService : IProductApplicationService
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;

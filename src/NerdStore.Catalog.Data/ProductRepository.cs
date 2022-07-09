@@ -4,7 +4,7 @@ using NerdStore.Core.Data;
 
 namespace NerdStore.Catalog.Data
 {
-    internal class ProductRepository : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly CatalogContext _catalogContext;
         public IUnitOfWork UnitOfWork => _catalogContext;
