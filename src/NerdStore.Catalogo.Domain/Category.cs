@@ -1,8 +1,8 @@
 ﻿using NerdStore.Core.DomainObjects;
 
-namespace NerdStore.Catalogo.Domain
+namespace NerdStore.Catalog.Domain
 {
-    internal class Category : Entity
+    public class Category : Entity
     {
         public string Name { get; set; }
         public int Code { get; set; }
@@ -11,6 +11,8 @@ namespace NerdStore.Catalogo.Domain
         {
             Name = name;
             Code = code;
+
+            Validate();
         }
 
         public override string ToString()
@@ -18,5 +20,9 @@ namespace NerdStore.Catalogo.Domain
             return $"{Name} - {Code}";
         }
 
+        public void Validate()
+        {
+
+        }
     }
 }
