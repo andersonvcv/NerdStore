@@ -2,7 +2,7 @@
 
 namespace NerdStore.Catalog.Domain.Events
 {
-    internal class LowStockEventHandler : INotificationHandler<LowStockEvent>
+    public class LowStockEventHandler : INotificationHandler<LowStockEvent>
     {
         private readonly IProductRepository _productRepository;
 

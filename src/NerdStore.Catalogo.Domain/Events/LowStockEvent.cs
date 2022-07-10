@@ -2,7 +2,7 @@
 
 namespace NerdStore.Catalog.Domain.Events
 {
-    internal class LowStockEvent : DomainEvent
+    public class LowStockEvent : DomainEvent
     {
         public int QuantityAvailableInStock { get; private set; }
 
