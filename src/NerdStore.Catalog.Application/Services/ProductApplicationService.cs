@@ -38,7 +38,7 @@ namespace NerdStore.Catalog.Application.Services
             return _mapper.Map<IEnumerable<CategoryDTO>>(await _productRepository.GetCategories());
         }
 
-        public async void Add(ProductDTO productDTO)
+        public async Task Add(ProductDTO productDTO)
         {
             var product = _mapper.Map<Product>(productDTO);
             _productRepository.Add(product);
@@ -46,7 +46,7 @@ namespace NerdStore.Catalog.Application.Services
             await _productRepository.UnitOfWork.Commit();
         }
 
-        public async void Update(ProductDTO productDTO)
+        public async Task Update(ProductDTO productDTO)
         {
             var product = _mapper.Map<Product>(productDTO);
             _productRepository.Update(product);
@@ -54,7 +54,7 @@ namespace NerdStore.Catalog.Application.Services
             await _productRepository.UnitOfWork.Commit();
         }
 
-        public async void Remove(ProductDTO productDTO)
+        public async Task Remove(ProductDTO productDTO)
         {
             var product = _mapper.Map<Product>(productDTO);
             _productRepository.Remove(product);
@@ -72,7 +72,7 @@ namespace NerdStore.Catalog.Application.Services
             return _mapper.Map<ProductDTO>(await _productRepository.GetById(productId));
         }
 
-        public async Task<ProductDTO> AddToFromStock(Guid productId, int quantity)
+        public async Task<ProductDTO> AddToStock(Guid productId, int quantity)
         {
             if (!(await _stockService.AddToStock(productId, quantity)))
             {

@@ -10,11 +10,11 @@ namespace NerdStore.Catalog.Application.Services
 
         Task<IEnumerable<CategoryDTO>> GetCategories();
 
-        void Add(ProductDTO productDTO);
-        void Update(ProductDTO productDTO);
-        void Remove(ProductDTO productDTO);
+        Task Add(ProductDTO productDTO);
+        Task Update(ProductDTO productDTO);
+        Task Remove(ProductDTO productDTO);
 
         Task<ProductDTO> RemoveFromStock(Guid productId, int quantity);
-        Task<ProductDTO> AddToFromStock(Guid productId, int quantity);
+        Task<ProductDTO> AddToStock(Guid productId, int quantity);
     }
 }
