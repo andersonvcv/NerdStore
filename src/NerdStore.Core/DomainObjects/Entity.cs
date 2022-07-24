@@ -9,6 +9,11 @@
             Id = Guid.NewGuid();
         }
 
+        public virtual bool IsValid()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Equals(object? obj)
         {
             var compareTo = obj as Entity;

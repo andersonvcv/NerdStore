@@ -2,4 +2,6 @@
 
 internal enum VoucherType
 {
+    Percentual = 0,
+    Value = 1,
 }
