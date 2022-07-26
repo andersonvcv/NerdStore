@@ -1,6 +1,6 @@
 ﻿namespace NerdStore.Sales.Domain;
 
-internal class Voucher
+public class Voucher
 {
     public string Code { get; private set; }
     public decimal? Percentual { get; private set; }

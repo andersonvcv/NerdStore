@@ -1,6 +1,6 @@
 ﻿namespace NerdStore.Sales.Domain;
 
-internal enum VoucherType
+public enum VoucherType
 {
     Percentual = 0,
     Value = 1,

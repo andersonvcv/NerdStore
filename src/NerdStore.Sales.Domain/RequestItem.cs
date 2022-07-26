@@ -2,7 +2,7 @@
 
 namespace NerdStore.Sales.Domain;
 
-internal class RequestItem : Entity
+public class RequestItem : Entity
 {
     public Guid RequestId { get; private set; }
     public Guid ProductId { get; private set; }
@@ -12,14 +12,12 @@ internal class RequestItem : Entity
 
     public Request Request { get; private set; }
 
-    public RequestItem(Guid requestId, Guid productId, string productName, int quantity, decimal value, Request request)
+    public RequestItem(Guid productId, string productName, int quantity, decimal value)
     {
-        RequestId = requestId;
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Value = value;
-        Request = request;
     }
 
     protected RequestItem()

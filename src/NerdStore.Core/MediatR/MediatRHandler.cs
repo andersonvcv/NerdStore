@@ -21,5 +21,10 @@ namespace NerdStore.Core.MediatR
         {
             await _mediator.Publish(message);
         }
+
+        public async Task<bool> PublishCommand<T>(T command) where T : Command
+        {
+            return await _mediator.Send(command);
+        }
     }
 }

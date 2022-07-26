@@ -1,6 +1,6 @@
 ﻿namespace NerdStore.Sales.Domain;
 
-internal enum RequestStatus
+public enum RequestStatus
 {
     Draft = 1,
     Initialized = 2,
