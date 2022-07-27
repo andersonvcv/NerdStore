@@ -5,6 +5,7 @@ using NerdStore.Catalog.Domain;
 using NerdStore.Catalog.Domain.Events;
 using NerdStore.Core.MediatR;
 using NerdStore.Sales.Application.Commands;
+using NerdStore.Sales.Data;
 using NerdStore.Sales.Domain;
 
 namespace NerdStore.WebApplication.MVC.Setup
@@ -13,8 +14,8 @@ namespace NerdStore.WebApplication.MVC.Setup
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            // MediatR
-            services.AddScoped<IMediatRHandler, MediatRHandler>();
+            // MediatoR
+            services.AddScoped<IMediatoRHandler, MediatoRHandler>();
             
             // Catalog
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -25,6 +26,7 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<INotificationHandler<LowStockEvent>, LowStockEventHandler>();
 
             // Sales
+            services.AddScoped<SalesContext>();
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IRequestHandler<AddRequestItemCommand, bool>, RequestCommandHandler>();
         }

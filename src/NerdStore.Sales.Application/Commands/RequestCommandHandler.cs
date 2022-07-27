@@ -28,9 +28,7 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
         }
         else
         {
-            var existingRequest = request.HasRequestItem(requestItem);
-
-            if (existingRequest)
+            if (request.HasRequestItem(requestItem))
             {
                 _requestRepository.UpdateItem(request.RequestItems.FirstOrDefault(ri => ri.ProductId == requestItem.ProductId));
             }

@@ -1,6 +1,8 @@
-﻿namespace NerdStore.Sales.Domain;
+﻿using NerdStore.Core.DomainObjects;
 
-public class Voucher
+namespace NerdStore.Sales.Domain;
+
+public class Voucher : Entity
 {
     public string Code { get; private set; }
     public decimal? Percentual { get; private set; }

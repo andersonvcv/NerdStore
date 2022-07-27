@@ -8,12 +8,12 @@ namespace NerdStore.WebApplication.MVC.Controllers
     public class CartController : ControllerBase
     {
         private readonly IProductApplicationService _productApplicationService;
-        private readonly IMediatRHandler _mediatRHandler;
+        private readonly IMediatoRHandler _mediatoRHandler;
 
-        public CartController(IProductApplicationService productApplicationService, IMediatRHandler mediatRHandler)
+        public CartController(IProductApplicationService productApplicationService, IMediatoRHandler mediatoRHandler)
         {
             _productApplicationService = productApplicationService;
-            _mediatRHandler = mediatRHandler;
+            _mediatoRHandler = mediatoRHandler;
         }
 
         public IActionResult Index()
@@ -35,7 +35,7 @@ namespace NerdStore.WebApplication.MVC.Controllers
             }
 
             var command = new AddRequestItemCommand(ClientId, product.Id, product.Name, quantity, product.Value);
-            await _mediatRHandler.PublishCommand(command);
+            await _mediatoRHandler.PublishCommand(command);
 
             TempData["Error"] = "Product not available";
             return RedirectToAction("ProductDetail", "Display", new { productId });

@@ -6,12 +6,12 @@ namespace NerdStore.Catalog.Domain
     public class StockService : IStockService
     {
         private readonly IProductRepository _productRepository;
-        private readonly IMediatRHandler _mediatRHandler;
+        private readonly IMediatoRHandler _mediatoRHandler;
 
-        public StockService(IProductRepository productRepository, IMediatRHandler mediatRHandler)
+        public StockService(IProductRepository productRepository, IMediatoRHandler mediatoRHandler)
         {
             _productRepository = productRepository;
-            _mediatRHandler = mediatRHandler;
+            _mediatoRHandler = mediatoRHandler;
         }
 
         public async Task<bool> RemoveFromStock(Guid productId, int quantity)
@@ -23,7 +23,7 @@ namespace NerdStore.Catalog.Domain
 
             if (product.QuantityInStock < Constants.LOW_STOCK_TRESHOLD)
             {
-                await _mediatRHandler.PublishEvent(new LowStockEvent(product.Id, product.QuantityInStock));
+                await _mediatoRHandler.PublishEvent(new LowStockEvent(product.Id, product.QuantityInStock));
             }
 
             _productRepository.Update(product);

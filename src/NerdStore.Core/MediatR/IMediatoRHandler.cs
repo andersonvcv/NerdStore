@@ -2,7 +2,7 @@
 
 namespace NerdStore.Core.MediatR
 {
-    public interface IMediatRHandler
+    public interface IMediatoRHandler
     {
         Task PublishEvent<T>(T mediatREvent) where T : Event;
 
