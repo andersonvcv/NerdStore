@@ -11,7 +11,7 @@ public class RequestMapping : IEntityTypeConfiguration<Request>
         builder.HasKey(ri => ri.Id);
         builder.Property(ri => ri.Code).HasDefaultValueSql("NEXT VALUE FOR MySequence");
 
-        builder.HasMany(ri => ri.RequestItems).WithOne(ri => ri.Request).HasForeignKey(r => r.RequestId);
+        builder.HasMany(r => r.RequestItems).WithOne(ri => ri.Request).HasForeignKey(r => r.RequestId);
 
         builder.ToTable("Requests");
     }

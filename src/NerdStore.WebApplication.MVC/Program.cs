@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NerdStore.Catalog.Application.AutoMapper;
 using NerdStore.Catalog.Data;
+using NerdStore.Sales.Data;
 using NerdStore.WebApplication.MVC.Data;
 using NerdStore.WebApplication.MVC.Setup;
 
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDbContext<CatalogContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<SalesContext>(options =>
     options.UseSqlServer(connectionString));
 
 

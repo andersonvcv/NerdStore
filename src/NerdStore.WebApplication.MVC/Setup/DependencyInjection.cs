@@ -26,9 +26,12 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<INotificationHandler<LowStockEvent>, LowStockEventHandler>();
 
             // Sales
-            services.AddScoped<SalesContext>();
             services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddScoped<SalesContext>();
+
             services.AddScoped<IRequestHandler<AddRequestItemCommand, bool>, RequestCommandHandler>();
+
+            // Payment
         }
     }
 }
