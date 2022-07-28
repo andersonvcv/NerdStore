@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.Messages;
+using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Domain;
 
 namespace NerdStore.Sales.Application.Commands;
@@ -7,10 +9,12 @@ namespace NerdStore.Sales.Application.Commands;
 public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool>
 {
     private readonly IRequestRepository _requestRepository;
+    private readonly IMediatoRHandler _mediatoRHandler;
 
-    public RequestCommandHandler(IRequestRepository requestRepository)
+    public RequestCommandHandler(IRequestRepository requestRepository, IMediatoRHandler mediatoRHandler)
     {
         _requestRepository = requestRepository;
+        _mediatoRHandler = mediatoRHandler;
     }
 
     public async Task<bool> Handle(AddRequestItemCommand command, CancellationToken cancellationToken)
@@ -48,7 +52,7 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
 
         foreach (var error in command.ValidationResult.Errors)
         {
-                
+            _mediatoRHandler.PublishNotification(new DomainNotification(command.MessageType, error.ErrorMessage));
         }
 
         return false;

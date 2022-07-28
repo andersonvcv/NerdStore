@@ -35,7 +35,7 @@ namespace NerdStore.WebApplication.MVC.Controllers
             }
 
             var command = new AddRequestItemCommand(ClientId, product.Id, product.Name, quantity, product.Value);
-            await _mediatoRHandler.PublishCommand(command);
+            await _mediatoRHandler.SendCommand(command);
 
             TempData["Error"] = "Product not available";
             return RedirectToAction("ProductDetail", "Display", new { id });

@@ -1,4 +1,5 @@
 ﻿using NerdStore.Core.Messages;
+using NerdStore.Core.Messages.Notifications;
 
 namespace NerdStore.Core.Communication.Mediator
 {
@@ -8,6 +9,8 @@ namespace NerdStore.Core.Communication.Mediator
 
         Task PublishMessage<T>(T message) where T : Message;
 
-        Task<bool> PublishCommand<T>(T message) where T : Command;
+        Task<bool> SendCommand<T>(T message) where T : Command;
+
+        Task PublishNotification<T>(T message) where T : DomainNotification;
     }
 }

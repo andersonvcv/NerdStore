@@ -11,4 +11,9 @@
     <PackageReference Include="mediatr" Version="10.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Messages\IntegrationEvents\" />
+    <Folder Include="Messages\Notifications\" />
+  </ItemGroup>
+
 </Project>
