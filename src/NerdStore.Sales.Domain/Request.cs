@@ -76,7 +76,7 @@ namespace NerdStore.Sales.Domain
 
         public void AddItem(RequestItem item)
         {
-            if (item.IsValid()) return;
+            if (!item.IsValid()) return;
             
             item.AsignRequest(Id);
 
@@ -95,7 +95,7 @@ namespace NerdStore.Sales.Domain
 
         public void RemoveItem(RequestItem item)
         {
-            if (item.IsValid()) return;
+            if (!item.IsValid()) return;
 
             var existingItem = _requestItems.FirstOrDefault(ri => ri.ProductId == item.ProductId);
             _ = existingItem ?? throw new DomainException("Item not in request");
@@ -105,7 +105,7 @@ namespace NerdStore.Sales.Domain
 
         public void UpdateItem(RequestItem item)
         {
-            if (item.IsValid()) return;
+            if (!item.IsValid()) return;
 
             item.AsignRequest(Id);
             var existingItem = _requestItems.FirstOrDefault(ri => ri.ProductId == item.ProductId);

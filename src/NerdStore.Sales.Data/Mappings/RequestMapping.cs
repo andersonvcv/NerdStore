@@ -8,10 +8,10 @@ public class RequestMapping : IEntityTypeConfiguration<Request>
 {
     public void Configure(EntityTypeBuilder<Request> builder)
     {
-        builder.HasKey(ri => ri.Id);
-        builder.Property(ri => ri.Code).HasDefaultValueSql("NEXT VALUE FOR MySequence");
+        builder.HasKey(r => r.Id);
+        builder.Property(r => r.Code).HasDefaultValueSql("NEXT VALUE FOR MySequence");
 
-        builder.HasMany(r => r.RequestItems).WithOne(ri => ri.Request).HasForeignKey(r => r.RequestId);
+        builder.HasMany(r => r.RequestItems).WithOne(ri => ri.Request).HasForeignKey(ri => ri.RequestId);
 
         builder.ToTable("Requests");
     }

@@ -1,6 +1,6 @@
 ﻿using NerdStore.Core.Messages;
 
-namespace NerdStore.Core.MediatR
+namespace NerdStore.Core.Communication.Mediator
 {
     public interface IMediatoRHandler
     {

@@ -28,6 +28,7 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
         }
         else
         {
+            request.AddItem(requestItem);
             if (request.HasRequestItem(requestItem))
             {
                 _requestRepository.UpdateItem(request.RequestItems.FirstOrDefault(ri => ri.ProductId == requestItem.ProductId));
@@ -36,9 +37,7 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
             {
                 _requestRepository.AddItem(requestItem);
             }
-
         }
-
 
         return await _requestRepository.UnitOfWork.Commit();
     }

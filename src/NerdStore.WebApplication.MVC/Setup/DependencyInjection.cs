@@ -3,7 +3,7 @@ using NerdStore.Catalog.Application.Services;
 using NerdStore.Catalog.Data;
 using NerdStore.Catalog.Domain;
 using NerdStore.Catalog.Domain.Events;
-using NerdStore.Core.MediatR;
+using NerdStore.Core.Communication.Mediator;
 using NerdStore.Sales.Application.Commands;
 using NerdStore.Sales.Data;
 using NerdStore.Sales.Domain;
