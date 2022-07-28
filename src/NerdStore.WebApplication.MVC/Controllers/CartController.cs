@@ -44,7 +44,7 @@ namespace NerdStore.WebApplication.MVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            TempData["Error"] = "Product not available";
+            TempData["Errors"] = GetErrorMessages();
             return RedirectToAction("ProductDetail", "Display", new { id });
         }
     }

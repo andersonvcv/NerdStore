@@ -20,6 +20,9 @@ public class ControllerBase : Controller
 
     protected bool ValidOperation() => !_docDomainNotificationHandler.HasDomainNotifications();
 
+    protected IEnumerable<string> GetErrorMessages() =>
+        _docDomainNotificationHandler.GetDomainNotifications().Select(d => d.Value).ToList();
+
     protected void NotifyError(string code, string message) =>
         _mediatoRHandler.PublishNotification(new DomainNotification(code, message));
 }
