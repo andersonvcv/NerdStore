@@ -28,6 +28,7 @@ namespace NerdStore.Sales.Data.Migrations
             modelBuilder.Entity("NerdStore.Sales.Domain.Request", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClientId")
@@ -54,10 +55,11 @@ namespace NerdStore.Sales.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("VoucherId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("VoucherId");
 
                     b.ToTable("Requests", (string)null);
                 });
@@ -137,7 +139,7 @@ namespace NerdStore.Sales.Data.Migrations
                 {
                     b.HasOne("NerdStore.Sales.Domain.Voucher", "Voucher")
                         .WithMany("Requests")
-                        .HasForeignKey("Id");
+                        .HasForeignKey("VoucherId");
 
                     b.Navigation("Voucher");
                 });

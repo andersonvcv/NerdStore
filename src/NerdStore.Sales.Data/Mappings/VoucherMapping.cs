@@ -11,7 +11,7 @@ public class VoucherMapping : IEntityTypeConfiguration<Voucher>
         builder.HasKey(v => v.Id);
         builder.Property(v => v.Code).IsRequired().HasColumnType("varchar(100)");
 
-        builder.HasMany(v => v.Requests).WithOne(r => r.Voucher).HasForeignKey(v => v.Id);
+        builder.HasMany(v => v.Requests).WithOne(r => r.Voucher).HasForeignKey(v => v.VoucherId).IsRequired(false);
 
         builder.ToTable("Vouchers");
     }

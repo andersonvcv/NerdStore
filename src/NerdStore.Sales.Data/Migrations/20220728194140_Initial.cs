@@ -41,7 +41,7 @@ namespace NerdStore.Sales.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR MySequence"),
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VoucherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VoucherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     HasVoucher = table.Column<bool>(type: "bit", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -52,8 +52,8 @@ namespace NerdStore.Sales.Data.Migrations
                 {
                     table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Requests_Vouchers_Id",
-                        column: x => x.Id,
+                        name: "FK_Requests_Vouchers_VoucherId",
+                        column: x => x.VoucherId,
                         principalTable: "Vouchers",
                         principalColumn: "Id");
                 });
@@ -83,6 +83,11 @@ namespace NerdStore.Sales.Data.Migrations
                 name: "IX_RequestItems_RequestId",
                 table: "RequestItems",
                 column: "RequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_VoucherId",
+                table: "Requests",
+                column: "VoucherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
