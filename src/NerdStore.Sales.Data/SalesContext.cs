@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.Data;
 using NerdStore.Core.Messages;
 using NerdStore.Sales.Domain;
@@ -7,8 +8,11 @@ namespace NerdStore.Sales.Data
 {
     public class SalesContext : DbContext, IUnitOfWork
     {
-        public SalesContext(DbContextOptions<SalesContext> options) : base(options)
+        private readonly IMediatoRHandler _mediatoRHandler;
+
+        public SalesContext(DbContextOptions<SalesContext> options, IMediatoRHandler mediatoRHandler) : base(options)
         {
+            _mediatoRHandler = mediatoRHandler;
         }
 
         public DbSet<Request> Request { get; set; }
@@ -51,7 +55,13 @@ namespace NerdStore.Sales.Data
                 }
             }
 
-            return await base.SaveChangesAsync() > 0;
+            var persisted = await base.SaveChangesAsync() > 0;
+            if (persisted)
+            {
+                await _mediatoRHandler.PublishEvents(this);
+            }
+
+            return persisted;
         }
     }
 }

@@ -6,6 +6,8 @@ using NerdStore.Catalog.Domain.Events;
 using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Application.Commands;
+using NerdStore.Sales.Application.Events;
+using NerdStore.Sales.Application.Queries;
 using NerdStore.Sales.Data;
 using NerdStore.Sales.Domain;
 
@@ -31,9 +33,14 @@ namespace NerdStore.WebApplication.MVC.Setup
 
             // Sales
             services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddScoped<IRequestQueries, RequestQueries>();
             services.AddScoped<SalesContext>();
 
             services.AddScoped<IRequestHandler<AddRequestItemCommand, bool>, RequestCommandHandler>();
+
+            services.AddScoped<INotificationHandler<DraftRequestEvent>, RequestEventHandler>();
+            services.AddScoped<INotificationHandler<UpdatedRequestEvent>, RequestEventHandler>();
+            services.AddScoped<INotificationHandler<AddedRequestItemEvent>, RequestEventHandler>();
 
             // Payment
         }

@@ -1,13 +1,28 @@
-﻿namespace NerdStore.Core.DomainObjects
+﻿using NerdStore.Core.Messages;
+
+namespace NerdStore.Core.DomainObjects
 {
     public abstract class Entity
     {
         public Guid Id { get; set; }
 
+        private List<Event> _events;
+        public IReadOnlyCollection<Event> Events => _events?.AsReadOnly();
+
         public Entity()
         {
             Id = Guid.NewGuid();
         }
+
+        public void AddEvent(Event mediatorEvent)
+        {
+            _events = _events ?? new List<Event>();
+            _events.Add(mediatorEvent);
+        }
+
+        public void RemoveEvent(Event mediatorEvent) => _events.Remove(mediatorEvent);
+
+        public void ClearEvents() => _events.Clear();
 
         public virtual bool IsValid()
         {
