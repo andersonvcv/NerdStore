@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using NerdStore.Core.Communication.Mediator;
+using NerdStore.Core.DomainObjects.DTOs;
+using NerdStore.Core.Extensions;
 using NerdStore.Core.Messages;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Application.Events;
@@ -7,7 +9,12 @@ using NerdStore.Sales.Domain;
 
 namespace NerdStore.Sales.Application.Commands;
 
-public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool>
+public class RequestCommandHandler : 
+    IRequestHandler<AddRequestItemCommand, bool>,
+    IRequestHandler<UpdateRequestItemCommand, bool>,
+    IRequestHandler<RemoveRequestItemCommand, bool>,
+    IRequestHandler<ApplyRequestVoucherCommand, bool>,
+    IRequestHandler<InitiateRequestCommand, bool>
 {
     private readonly IRequestRepository _requestRepository;
     private readonly IMediatoRHandler _mediatoRHandler;
@@ -52,9 +59,113 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
         return await _requestRepository.UnitOfWork.Commit();
     }
 
+    public async Task<bool> Handle(UpdateRequestItemCommand command, CancellationToken cancellationToken)
+    {
+        if (!ValidateCommand(command)) return false;
+
+        var request = await _requestRepository.GetDraftRequestByClientId(command.ClientId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Request not found!"));
+            return false;
+        }
+
+        var requestItem = await _requestRepository.GetByRequest(request.Id, command.ProductId);
+
+        if (!request.HasRequestItem(requestItem))
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Request Item not found!"));
+            return false;
+        }
+
+        request.UpdateItemQuantity(requestItem, command.Quantity);
+
+        request.AddEvent(new UpdatedRequestEvent(request.ClientId, request.Id, request.Total));
+
+        _requestRepository.UpdateItem(requestItem);
+        _requestRepository.Update(request);
+
+        return await _requestRepository.UnitOfWork.Commit();
+    }
+
+    public async Task<bool> Handle(RemoveRequestItemCommand command, CancellationToken cancellationToken)
+    {
+        if (!ValidateCommand(command)) return false;
+
+        var request = await _requestRepository.GetDraftRequestByClientId(command.ClientId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Request not found!"));
+            return false;
+        }
+
+        var requestItem = await _requestRepository.GetByRequest(request.Id, command.ProductId);
+
+        if (requestItem is not null && !request.HasRequestItem(requestItem))
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Request Item not found!"));
+            return false;
+        }
+
+        request.RemoveItem(requestItem);
+
+        request.AddEvent(new RemovedRequestItemEvent(request.ClientId, request.Id, command.ProductId));
+
+        _requestRepository.RemoveItem(requestItem);
+        _requestRepository.Update(request);
+
+        return await _requestRepository.UnitOfWork.Commit();
+
+
+    }
+
+    public async Task<bool> Handle(ApplyRequestVoucherCommand command, CancellationToken cancellationToken)
+    {
+        if (!ValidateCommand(command)) return false;
+
+        var request = await _requestRepository.GetDraftRequestByClientId(command.ClientId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Request not found!"));
+            return false;
+        }
+
+        var voucher = await _requestRepository.GetVoucherByCode(command.VoucherCode);
+
+        if (voucher is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("request", "Voucher not found!"));
+            return false;
+        }
+
+        var voucherValidation = request.ApplyVoucher(voucher);
+
+        if (!voucherValidation.IsValid)
+        {
+            foreach (var error in voucherValidation.Errors)
+            {
+                await _mediatoRHandler.PublishNotification(new DomainNotification(error.ErrorCode, error.ErrorMessage));
+            }
+
+            return false;
+        }
+
+        request.AddEvent(new AppliedVoucherEvent(request.ClientId, request.Id, voucher.Id));
+        request.AddEvent(new UpdatedRequestEvent(request.ClientId, request.Id, request.Total));
+
+        //TODO: Subtract voucher quantity available
+
+        _requestRepository.Update(request);
+
+        return await _requestRepository.UnitOfWork.Commit();
+    }
+
     private bool ValidateCommand(Command command)
     {
-        if (command.Valid()) return true;
+        if (command.IsValid()) return true;
 
         foreach (var error in command.ValidationResult.Errors)
         {
@@ -62,5 +173,22 @@ public class RequestCommandHandler : IRequestHandler<AddRequestItemCommand, bool
         }
 
         return false;
+    }
+
+    public async Task<bool> Handle(InitiateRequestCommand command, CancellationToken cancellationToken)
+    {
+        if (!ValidateCommand(command)) return false;
+
+        var request = await _requestRepository.GetDraftRequestByClientId(command.ClientId);
+        request.Initiate();
+
+        var items = new List<Item>();
+        request.RequestItems.ForEach(ri => items.Add(new Item { Id = ri.ProductId, Quantity = ri.Quantity }));
+        var requestItems = new RequestItems { RequestId = request.Id, Items = items };
+
+        request.AddEvent(new InitiatedRequestEvent(request.Id, request.ClientId, requestItems, request.Total, command.CardName, command.CardNumber, command.CardExpirationDate, command.CardCVV));
+
+        _requestRepository.Update(request);
+        return await _requestRepository.UnitOfWork.Commit();
     }
 }

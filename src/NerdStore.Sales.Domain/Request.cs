@@ -1,4 +1,5 @@
-﻿using NerdStore.Core.DomainObjects;
+﻿using FluentValidation.Results;
+using NerdStore.Core.DomainObjects;
 
 namespace NerdStore.Sales.Domain
 {
@@ -65,11 +66,17 @@ namespace NerdStore.Sales.Domain
             CalculateDiscount();
         }
 
-        public void AssignVoucher(Voucher voucher)
+        public ValidationResult ApplyVoucher(Voucher voucher)
         {
-            Voucher = voucher;
-            HasVoucher = true;
-            CalculateTotal();
+            var validationResult = voucher.IsApplicable();
+            if (validationResult.IsValid)
+            {
+                Voucher = voucher;
+                HasVoucher = true;
+                CalculateTotal();
+            }
+
+            return validationResult;
         }
 
         public bool HasRequestItem(RequestItem item) => _requestItems.Any(ri => ri.ProductId == item.ProductId);

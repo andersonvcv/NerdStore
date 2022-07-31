@@ -37,10 +37,15 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<SalesContext>();
 
             services.AddScoped<IRequestHandler<AddRequestItemCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyRequestVoucherCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveRequestItemCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateRequestItemCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<InitiateRequestCommand, bool>, RequestCommandHandler>();
 
             services.AddScoped<INotificationHandler<DraftRequestEvent>, RequestEventHandler>();
             services.AddScoped<INotificationHandler<UpdatedRequestEvent>, RequestEventHandler>();
             services.AddScoped<INotificationHandler<AddedRequestItemEvent>, RequestEventHandler>();
+            services.AddScoped<INotificationHandler<InitiatedRequestEvent>, RequestEventHandler>();
 
             // Payment
         }

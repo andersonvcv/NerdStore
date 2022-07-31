@@ -14,7 +14,7 @@ namespace NerdStore.Core.Messages
             TimeStamp = DateTime.Now;
         }
 
-        public virtual bool Valid()
+        public virtual bool IsValid()
         {
             throw new NotImplementedException();
         }

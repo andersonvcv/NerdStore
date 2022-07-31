@@ -5,6 +5,7 @@ using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Application.Commands;
 using NerdStore.Sales.Application.Queries;
+using NerdStore.Sales.Application.Queries.DTOs;
 
 namespace NerdStore.WebApplication.MVC.Controllers
 {
@@ -78,7 +79,7 @@ namespace NerdStore.WebApplication.MVC.Controllers
             var product = await _productApplicationService.GetById(id);
             if (product is null) return BadRequest();
 
-            var command = new UpdateRequestItemCommand(ClientId, id);
+            var command = new UpdateRequestItemCommand(ClientId, id, quantity);
             await _mediatoRHandler.SendCommand(command);
 
             if (ValidOperation())
@@ -91,9 +92,9 @@ namespace NerdStore.WebApplication.MVC.Controllers
 
         [HttpPost]
         [Route("apply-voucher")]
-        public async Task<IActionResult> ApplyVoucher(Guid id, int quantity)
+        public async Task<IActionResult> ApplyVoucher(string voucherCode)
         {
-            var command = new ApplyRequestVoucherCommand(ClientId, id);
+            var command = new ApplyRequestVoucherCommand(ClientId, voucherCode);
             await _mediatoRHandler.SendCommand(command);
 
             if (ValidOperation())
@@ -102,6 +103,31 @@ namespace NerdStore.WebApplication.MVC.Controllers
             }
 
             return View("Index", await _requestQueries.GetClientCart(ClientId));
+        }
+
+        [HttpGet]
+        [Route("puchase-summary")]
+        public async Task<IActionResult> PurchaseSummary()
+        {
+            return View(await _requestQueries.GetClientCart(ClientId));
+        } 
+
+        [HttpPost]
+        [Route("initiate-request")]
+        public async Task<IActionResult> InitiateRequest(CartDTO cartDTO)
+        {
+            var cart = await _requestQueries.GetClientCart(ClientId);
+
+            var command = new InitiateRequestCommand(cart.RequestId, ClientId, cart.Total, cart.Payment.CreditCardName, cart.Payment.CreditCardNumber, cart.Payment.CreditCardExpirationDate, cart.Payment.CreditCardCVV);
+
+            await _mediatoRHandler.SendCommand(command);
+
+            if (ValidOperation())
+            {
+                return RedirectToAction("Index", "Request");
+            }
+
+            return View("PurchaseSummary", await _requestQueries.GetClientCart(ClientId));
         }
     }
 }

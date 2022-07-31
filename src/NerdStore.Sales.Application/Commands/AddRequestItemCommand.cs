@@ -20,7 +20,7 @@ public class AddRequestItemCommand: Command
         Value = value;
     }
 
-    public override bool Valid()
+    public override bool IsValid()
     {
         ValidationResult = new AddItemValidation().Validate(this);
         return ValidationResult.IsValid;
