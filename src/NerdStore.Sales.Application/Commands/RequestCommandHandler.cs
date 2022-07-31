@@ -3,6 +3,7 @@ using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.DomainObjects.DTOs;
 using NerdStore.Core.Extensions;
 using NerdStore.Core.Messages;
+using NerdStore.Core.Messages.IntegrationEvents;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Application.Events;
 using NerdStore.Sales.Domain;

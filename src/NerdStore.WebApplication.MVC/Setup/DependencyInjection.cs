@@ -4,12 +4,14 @@ using NerdStore.Catalog.Data;
 using NerdStore.Catalog.Domain;
 using NerdStore.Catalog.Domain.Events;
 using NerdStore.Core.Communication.Mediator;
+using NerdStore.Core.Messages.IntegrationEvents;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Sales.Application.Commands;
 using NerdStore.Sales.Application.Events;
 using NerdStore.Sales.Application.Queries;
 using NerdStore.Sales.Data;
 using NerdStore.Sales.Domain;
+using RequestEventHandler = NerdStore.Catalog.Domain.Events.RequestEventHandler;
 
 namespace NerdStore.WebApplication.MVC.Setup
 {
@@ -29,7 +31,7 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<CatalogContext>();
             
-            services.AddScoped<INotificationHandler<LowStockEvent>, LowStockEventHandler>();
+            services.AddScoped<INotificationHandler<LowStockEvent>, RequestEventHandler>();
 
             // Sales
             services.AddScoped<IRequestRepository, RequestRepository>();
@@ -42,10 +44,10 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<IRequestHandler<UpdateRequestItemCommand, bool>, RequestCommandHandler>();
             services.AddScoped<IRequestHandler<InitiateRequestCommand, bool>, RequestCommandHandler>();
 
-            services.AddScoped<INotificationHandler<DraftRequestEvent>, RequestEventHandler>();
-            services.AddScoped<INotificationHandler<UpdatedRequestEvent>, RequestEventHandler>();
-            services.AddScoped<INotificationHandler<AddedRequestItemEvent>, RequestEventHandler>();
-            services.AddScoped<INotificationHandler<InitiatedRequestEvent>, RequestEventHandler>();
+            services.AddScoped<INotificationHandler<DraftRequestEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<UpdatedRequestEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<AddedRequestItemEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<InitiatedRequestEvent>, Sales.Application.Events.RequestEventHandler>();
 
             // Payment
         }

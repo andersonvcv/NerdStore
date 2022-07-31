@@ -1,11 +1,8 @@
-﻿using FluentValidation;
-using NerdStore.Core.DomainObjects.DTOs;
-using NerdStore.Core.Messages;
-using NerdStore.Sales.Application.Commands;
+﻿using NerdStore.Core.DomainObjects.DTOs;
 
-namespace NerdStore.Sales.Application.Events;
+namespace NerdStore.Core.Messages.IntegrationEvents;
 
-public class InitiatedRequestEvent : Event
+public class InitiatedRequestEvent : IntegrationEvent
 {
     public Guid RequestId { get; private set; }
     public Guid ClientId { get; private set; }

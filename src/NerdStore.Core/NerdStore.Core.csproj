@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Messages\IntegrationEvents\" />
     <Folder Include="Messages\Notifications\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
