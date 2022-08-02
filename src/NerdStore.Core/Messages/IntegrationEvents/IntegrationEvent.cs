@@ -1,6 +1,6 @@
 ﻿namespace NerdStore.Core.Messages.IntegrationEvents;
 
-public class IntegrationEvent : Event
+public abstract class IntegrationEvent : Event
 {
     
 }

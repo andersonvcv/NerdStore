@@ -6,7 +6,9 @@ namespace NerdStore.Catalog.Domain.Events
 {
     public class RequestEventHandler : 
         INotificationHandler<LowStockEvent>,
-        INotificationHandler<InitiatedRequestEvent>
+        INotificationHandler<InitiatedRequestEvent>,
+        INotificationHandler<CanceledRequestEvent>
+
     {
         private readonly IProductRepository _productRepository;
         private readonly IStockService _stockService;
@@ -39,6 +41,11 @@ namespace NerdStore.Catalog.Domain.Events
                 await _mediatoRHandler.PublishEvent(new RejectedRequestEvent(integrationEvent.RequestId,
                     integrationEvent.ClientId));
             }
+        }
+
+        public async Task Handle(CanceledRequestEvent integrationEvent, CancellationToken cancellationToken)
+        {
+            await _stockService.AddToStock(integrationEvent.RequestItems);
         }
     }
 }

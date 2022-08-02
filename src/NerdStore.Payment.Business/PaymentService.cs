@@ -1,5 +1,6 @@
 ﻿using NerdStore.Core.Communication.Mediator;
 using NerdStore.Core.DomainObjects.DTOs;
+using NerdStore.Core.Messages.IntegrationEvents;
 using NerdStore.Core.Messages.Notifications;
 
 namespace NerdStore.Payment.Business;

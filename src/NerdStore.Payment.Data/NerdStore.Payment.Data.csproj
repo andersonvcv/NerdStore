@@ -6,4 +6,24 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NerdStore.Core\NerdStore.Core.csproj" />
+    <ProjectReference Include="..\NerdStore.Payment.Business\NerdStore.Payment.Business.csproj" />
+  </ItemGroup>
+
 </Project>

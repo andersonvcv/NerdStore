@@ -22,6 +22,9 @@
     <ProjectReference Include="..\NerdStore.Catalog.Data\NerdStore.Catalog.Data.csproj" />
     <ProjectReference Include="..\NerdStore.Catalogo.Domain\NerdStore.Catalog.Domain.csproj" />
     <ProjectReference Include="..\NerdStore.Core\NerdStore.Core.csproj" />
+    <ProjectReference Include="..\NerdStore.Payment.AntiCorruption\NerdStore.Payment.AntiCorruption.csproj" />
+    <ProjectReference Include="..\NerdStore.Payment.Business\NerdStore.Payment.Business.csproj" />
+    <ProjectReference Include="..\NerdStore.Payment.Data\NerdStore.Payment.Data.csproj" />
     <ProjectReference Include="..\NerdStore.Sales.Application\NerdStore.Sales.Application.csproj" />
     <ProjectReference Include="..\NerdStore.Sales.Data\NerdStore.Sales.Data.csproj" />
   </ItemGroup>

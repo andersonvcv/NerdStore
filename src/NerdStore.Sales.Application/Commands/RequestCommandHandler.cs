@@ -15,7 +15,10 @@ public class RequestCommandHandler :
     IRequestHandler<UpdateRequestItemCommand, bool>,
     IRequestHandler<RemoveRequestItemCommand, bool>,
     IRequestHandler<ApplyRequestVoucherCommand, bool>,
-    IRequestHandler<InitiateRequestCommand, bool>
+    IRequestHandler<InitiateRequestCommand, bool>,
+    IRequestHandler<FinalizeRequestCommand, bool>,
+    IRequestHandler<CancelRequestReplenishStockCommand, bool>,
+    IRequestHandler<CancelRequestCommamnd, bool>
 {
     private readonly IRequestRepository _requestRepository;
     private readonly IMediatoRHandler _mediatoRHandler;
@@ -164,18 +167,6 @@ public class RequestCommandHandler :
         return await _requestRepository.UnitOfWork.Commit();
     }
 
-    private bool ValidateCommand(Command command)
-    {
-        if (command.IsValid()) return true;
-
-        foreach (var error in command.ValidationResult.Errors)
-        {
-            _mediatoRHandler.PublishNotification(new DomainNotification(command.MessageType, error.ErrorMessage));
-        }
-
-        return false;
-    }
-
     public async Task<bool> Handle(InitiateRequestCommand command, CancellationToken cancellationToken)
     {
         if (!ValidateCommand(command)) return false;
@@ -191,5 +182,68 @@ public class RequestCommandHandler :
 
         _requestRepository.Update(request);
         return await _requestRepository.UnitOfWork.Commit();
+    }
+
+    public async Task<bool> Handle(FinalizeRequestCommand command, CancellationToken cancellationToken)
+    {
+        var request = await _requestRepository.GetById(command.RequestId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("Request", "Request not founded"));
+            return false;
+        }
+
+        request.Finalize();
+
+        request.AddEvent(new RequestFinalizedEvent(command.RequestId));
+        return await _requestRepository.UnitOfWork.Commit();
+    }
+
+    public async Task<bool> Handle(CancelRequestReplenishStockCommand command, CancellationToken cancellationToken)
+    {
+        var request = await _requestRepository.GetById(command.RequestId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("Request", "Request not founded"));
+            return false;
+        }
+
+        var items = new List<Item>();
+        request.RequestItems.ForEach(i => items.Add(new Item{Id = i.ProductId, Quantity = i.Quantity}));
+        var requestItems = new RequestItems { RequestId = request.Id, Items = items };
+
+        request.AddEvent(new CanceledRequestEvent(request.Id, request.ClientId, requestItems));
+        request.MakeDraft();
+
+        return await _requestRepository.UnitOfWork.Commit();
+    }
+
+    public async Task<bool> Handle(CancelRequestCommamnd command, CancellationToken cancellationToken)
+    {
+        var request = await _requestRepository.GetById(command.RequestId);
+
+        if (request is null)
+        {
+            await _mediatoRHandler.PublishNotification(new DomainNotification("Request", "Request not found!"));
+            return false;
+        }
+
+        request.MakeDraft();
+
+        return await _requestRepository.UnitOfWork.Commit();
+    }
+
+    private bool ValidateCommand(Command command)
+    {
+        if (command.IsValid()) return true;
+
+        foreach (var error in command.ValidationResult.Errors)
+        {
+            _mediatoRHandler.PublishNotification(new DomainNotification(command.MessageType, error.ErrorMessage));
+        }
+
+        return false;
     }
 }

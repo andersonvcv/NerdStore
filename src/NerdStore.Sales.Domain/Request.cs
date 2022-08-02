@@ -130,7 +130,7 @@ namespace NerdStore.Sales.Domain
 
         public void MakeDraft() => Status = RequestStatus.Draft;
         public void Initiate() => Status = RequestStatus.Initialized;
-        public void MakeFinal() => Status = RequestStatus.Payed;
+        public void Finalize() => Status = RequestStatus.Payed;
         public void Cancel() => Status = RequestStatus.Canceled;
 
         public static class RquestFactory
