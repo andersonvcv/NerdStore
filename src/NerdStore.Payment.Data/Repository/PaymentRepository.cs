@@ -16,7 +16,7 @@ public class PaymentRepository : IPaymentRepository
 
     public void Add(Business.Payment payment)
     {
-        _paymentContext.Add(payment);
+        _paymentContext.Payment.Add(payment);
     }
 
     public void AddTransaction(Transaction transaction)
