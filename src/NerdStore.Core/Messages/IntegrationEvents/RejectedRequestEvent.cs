@@ -1,6 +1,4 @@
-﻿using NerdStore.Core.DomainObjects.DTOs;
-
-namespace NerdStore.Core.Messages.IntegrationEvents;
+﻿namespace NerdStore.Core.Messages.IntegrationEvents;
 
 public class RejectedRequestEvent : IntegrationEvent
 {
@@ -9,6 +7,7 @@ public class RejectedRequestEvent : IntegrationEvent
 
     public RejectedRequestEvent(Guid requestId, Guid clientId)
     {
+        AggregateId = requestId;
         RequestId = requestId;
         ClientId = clientId;
     }

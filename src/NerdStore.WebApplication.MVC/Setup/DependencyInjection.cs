@@ -8,6 +8,7 @@ using NerdStore.Core.Messages.IntegrationEvents;
 using NerdStore.Core.Messages.Notifications;
 using NerdStore.Payment.AntiCorruption;
 using NerdStore.Payment.Business;
+using NerdStore.Payment.Business.Events;
 using NerdStore.Payment.Data;
 using NerdStore.Payment.Data.Repository;
 using NerdStore.Sales.Application.Commands;
@@ -36,6 +37,7 @@ namespace NerdStore.WebApplication.MVC.Setup
             
             services.AddScoped<INotificationHandler<LowStockEvent>, Catalog.Domain.Events.RequestEventHandler>();
             services.AddScoped<INotificationHandler<InitiatedRequestEvent>, Catalog.Domain.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<CanceledRequestEvent>, Catalog.Domain.Events.RequestEventHandler>();
 
             // Sales
             services.AddScoped<IRequestRepository, RequestRepository>();
@@ -47,8 +49,14 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<IRequestHandler<RemoveRequestItemCommand, bool>, RequestCommandHandler>();
             services.AddScoped<IRequestHandler<ApplyRequestVoucherCommand, bool>, RequestCommandHandler>();
             services.AddScoped<IRequestHandler<InitiateRequestCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<FinalizeRequestCommand, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelRequestCommamnd, bool>, RequestCommandHandler>();
+            services.AddScoped<IRequestHandler<CancelRequestReplenishStockCommand, bool>, RequestCommandHandler>();
 
             services.AddScoped<INotificationHandler<DraftRequestEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<RejectedRequestEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<CompletedPaymentEvent>, Sales.Application.Events.RequestEventHandler>();
+            services.AddScoped<INotificationHandler<PaymentRejectedEvent>, Sales.Application.Events.RequestEventHandler>();
             services.AddScoped<INotificationHandler<UpdatedRequestEvent>, Sales.Application.Events.RequestEventHandler>();
             services.AddScoped<INotificationHandler<AddedRequestItemEvent>, Sales.Application.Events.RequestEventHandler>();
             
@@ -60,6 +68,8 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<IPaypalGateway, PaypalGateway>();
             services.AddScoped<IConfigurationManager, Payment.AntiCorruption.ConfigurationManager>();
             services.AddScoped<PaymentContext>();
+
+            services.AddScoped<INotificationHandler<ConfirmedRequestEvent>, PaymentEventHandler>();
         }
     }
 }

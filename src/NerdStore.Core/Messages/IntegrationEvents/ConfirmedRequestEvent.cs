@@ -15,6 +15,7 @@ public class ConfirmedRequestEvent : IntegrationEvent
 
     public ConfirmedRequestEvent(Guid requestId, Guid clientId, RequestItems items, decimal total, string cardName, string cardNumber, string cardExpirationDate, string cardCvv)
     {
+        AggregateId = requestId;
         RequestId = requestId;
         ClientId = clientId;
         RequestItems = items;
