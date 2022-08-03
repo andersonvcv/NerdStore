@@ -59,7 +59,6 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<INotificationHandler<PaymentRejectedEvent>, Sales.Application.Events.RequestEventHandler>();
             services.AddScoped<INotificationHandler<UpdatedRequestEvent>, Sales.Application.Events.RequestEventHandler>();
             services.AddScoped<INotificationHandler<AddedRequestItemEvent>, Sales.Application.Events.RequestEventHandler>();
-            
 
             // Payment
             services.AddScoped<IPaymentRepository, PaymentRepository>();
