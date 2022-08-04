@@ -48,7 +48,6 @@ namespace NerdStore.Payment.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<decimal>("Value")

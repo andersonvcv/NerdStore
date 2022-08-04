@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NerdStore.Payment.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace NerdStore.Payment.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Status = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Status = table.Column<string>(type: "varchar(100)", nullable: true),
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CardName = table.Column<string>(type: "varchar(250)", nullable: false),
                     CardNumber = table.Column<string>(type: "varchar(16)", nullable: false),

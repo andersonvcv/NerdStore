@@ -12,8 +12,8 @@ using NerdStore.Payment.Data;
 namespace NerdStore.Payment.Data.Migrations
 {
     [DbContext(typeof(PaymentContext))]
-    [Migration("20220803161430_Initial")]
-    partial class Initial
+    [Migration("20220804220500_Initital")]
+    partial class Initital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,6 @@ namespace NerdStore.Payment.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("varchar(100)");
 
                     b.Property<decimal>("Value")

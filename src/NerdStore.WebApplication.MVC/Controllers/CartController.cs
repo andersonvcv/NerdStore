@@ -118,13 +118,13 @@ namespace NerdStore.WebApplication.MVC.Controllers
         {
             var cart = await _requestQueries.GetClientCart(ClientId);
 
-            var command = new InitiateRequestCommand(cart.RequestId, ClientId, cart.Total, cart.Payment.CreditCardName, cart.Payment.CreditCardNumber, cart.Payment.CreditCardExpirationDate, cart.Payment.CreditCardCVV);
+            var command = new InitiateRequestCommand(cart.RequestId, ClientId, cart.Total, cartDTO.Payment.CreditCardName, cartDTO.Payment.CreditCardNumber, cartDTO.Payment.CreditCardExpirationDate, cartDTO.Payment.CreditCardCVV);
 
             await _mediatoRHandler.SendCommand(command);
 
             if (ValidOperation())
             {
-                return RedirectToAction("Index", "Request");
+                return RedirectToAction("Index", "");
             }
 
             return View("PurchaseSummary", await _requestQueries.GetClientCart(ClientId));
