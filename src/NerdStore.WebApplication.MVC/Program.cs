@@ -17,7 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDbContext<CatalogContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.LogTo(Console.WriteLine).UseSqlServer(connectionString);
+});
 
 builder.Services.AddDbContext<SalesContext>(options =>
     options.UseSqlServer(connectionString));

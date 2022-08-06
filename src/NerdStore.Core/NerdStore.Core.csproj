@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\EventSourcing\" />
     <Folder Include="Messages\Notifications\" />
     <Folder Include="Extensions\" />
   </ItemGroup>

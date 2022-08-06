@@ -2,6 +2,7 @@
 
 public class RequestDTO
 {
+    public Guid Id { get; set; }
     public int Code { get; set; }
     public decimal Value { get; set; }
     public DateTime EntryDate { get; set; }

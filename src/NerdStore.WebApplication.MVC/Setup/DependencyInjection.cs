@@ -30,6 +30,8 @@ namespace NerdStore.WebApplication.MVC.Setup
             // Event Sourcing
             services.AddSingleton<IEventStoreService, EventStoreService>();
 
+            services.AddSingleton<IEventStoreRepository, EventStoreRepository>();
+
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
             
