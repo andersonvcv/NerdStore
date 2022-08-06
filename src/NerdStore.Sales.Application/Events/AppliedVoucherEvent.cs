@@ -10,6 +10,7 @@ public class AppliedVoucherEvent : Event
 
     public AppliedVoucherEvent(Guid clientId, Guid requestId, Guid voucherId)
     {
+        AggregateId = requestId;
         ClientId = clientId;
         RequestId = requestId;
         VoucherId = voucherId;

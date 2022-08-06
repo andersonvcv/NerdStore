@@ -194,7 +194,7 @@ public class RequestCommandHandler :
             return false;
         }
 
-        request.Finalize();
+        request.MarkAsPayed();
 
         request.AddEvent(new RequestFinalizedEvent(command.RequestId));
         return await _requestRepository.UnitOfWork.Commit();
@@ -215,7 +215,7 @@ public class RequestCommandHandler :
         var requestItems = new RequestItems { RequestId = request.Id, Items = items };
 
         request.AddEvent(new CanceledRequestEvent(request.Id, request.ClientId, requestItems));
-        request.MakeDraft();
+        request.MarkAsDraft();
 
         return await _requestRepository.UnitOfWork.Commit();
     }
@@ -230,7 +230,7 @@ public class RequestCommandHandler :
             return false;
         }
 
-        request.MakeDraft();
+        request.MarkAsDraft();
 
         return await _requestRepository.UnitOfWork.Commit();
     }

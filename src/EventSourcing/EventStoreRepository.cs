@@ -23,7 +23,7 @@ public class EventStoreRepository : IEventStoreRepository
     public async Task<IEnumerable<StoredEvent>> GetEvents(Guid aggregateId)
     {
         var eventsPage = await _eventStoreService.GetConnection()
-            .ReadStreamEventsBackwardAsync(aggregateId.ToString(), 0, 500, false);
+            .ReadStreamEventsForwardAsync(aggregateId.ToString(), 0, 500, false);
 
         var storedEvents = new List<StoredEvent>();
 

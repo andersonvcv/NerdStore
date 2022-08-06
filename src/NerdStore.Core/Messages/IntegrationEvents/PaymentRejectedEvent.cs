@@ -10,6 +10,7 @@ public class PaymentRejectedEvent : IntegrationEvent
 
     public PaymentRejectedEvent(Guid requestId, Guid clientId, Guid paymentId, Guid transactionId, decimal total)
     {
+        AggregateId = requestId;
         RequestId = requestId;
         ClientId = clientId;
         PaymentId = paymentId;

@@ -57,8 +57,6 @@ namespace NerdStore.WebApplication.MVC.Controllers.Admin
             await _productApplicationService.Update(productDTO);
 
             return RedirectToAction("Index");
-
-            return View(await _productApplicationService.GetById(id));
         }
 
         [HttpGet]

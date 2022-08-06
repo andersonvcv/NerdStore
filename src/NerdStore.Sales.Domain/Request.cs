@@ -128,9 +128,9 @@ namespace NerdStore.Sales.Domain
             UpdateItem(item);
         }
 
-        public void MakeDraft() => Status = RequestStatus.Draft;
+        public void MarkAsDraft() => Status = RequestStatus.Draft;
         public void Initiate() => Status = RequestStatus.Initialized;
-        public void Finalize() => Status = RequestStatus.Payed;
+        public void MarkAsPayed() => Status = RequestStatus.Payed;
         public void Cancel() => Status = RequestStatus.Canceled;
 
         public static class RquestFactory
@@ -138,7 +138,7 @@ namespace NerdStore.Sales.Domain
             public static Request DraftRequest(Guid clientId)
             {
                 var request = new Request { ClientId = clientId };
-                request.MakeDraft();
+                request.MarkAsDraft();
                 return request;
             } 
         }

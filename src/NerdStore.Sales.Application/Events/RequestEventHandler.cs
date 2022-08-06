@@ -22,14 +22,17 @@ public class RequestEventHandler :
 
     public async Task Handle(DraftRequestEvent notification, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
     }
 
     public async Task Handle(UpdatedRequestEvent notification, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
     }
 
     public async Task Handle(AddedRequestItemEvent notification, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
     }
 
     public async Task Handle(RejectedRequestEvent integrationEvent, CancellationToken cancellationToken)

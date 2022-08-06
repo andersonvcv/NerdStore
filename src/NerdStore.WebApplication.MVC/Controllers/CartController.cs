@@ -124,7 +124,7 @@ namespace NerdStore.WebApplication.MVC.Controllers
 
             if (ValidOperation())
             {
-                return RedirectToAction("Index", "");
+                return RedirectToAction("Index", "Request");
             }
 
             return View("PurchaseSummary", await _requestQueries.GetClientCart(ClientId));
