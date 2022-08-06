@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EventSourcing;
+using MediatR;
 using NerdStore.Catalog.Application.Services;
 using NerdStore.Catalog.Data;
 using NerdStore.Catalog.Domain;
@@ -25,6 +26,9 @@ namespace NerdStore.WebApplication.MVC.Setup
         {
             // MediatoR
             services.AddScoped<IMediatoRHandler, MediatoRHandler>();
+
+            // Event Sourcing
+            services.AddSingleton<IEventStoreService, EventStoreService>();
 
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -69,6 +73,7 @@ namespace NerdStore.WebApplication.MVC.Setup
             services.AddScoped<PaymentContext>();
 
             services.AddScoped<INotificationHandler<ConfirmedRequestEvent>, PaymentEventHandler>();
+
         }
     }
 }
