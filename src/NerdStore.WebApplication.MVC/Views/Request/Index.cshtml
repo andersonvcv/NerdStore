@@ -1,0 +1,84 @@
+﻿@model IEnumerable<NerdStore.Sales.Application.Queries.DTOs.RequestDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h4>My Request</h4>
+            <hr>
+            <h5>Review request</h5>
+
+            @{
+                if (Model.Any())
+                {
+                    <br><br>
+                    <div class="table-responsive-sm">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Request</th>
+                                    <th scope="col">Request date</th>
+                                    <th scope="col">Request status</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">History</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (var request in Model)
+                                    {
+                                        <tr>
+                                            <td>@request.Code</td>
+                                            <td>@request.EntryDate.ToShortDateString()</td>
+                                            <td>
+                                                <h4>
+                                                    @{
+                                                        if (request.Status == 3)
+                                                        {
+                                                            <span class="badge badge-success">
+                                                                Paid
+                                                            </span>
+                                                        }
+                                                        else if (request.Status == 1)
+                                                        {
+                                                            <span class="badge badge-danger">
+                                                                Draft
+                                                            </span>
+                                                        }
+                                                        else if (request.Status == 2)
+                                                        {
+                                                            <span class="badge badge-danger">
+                                                                Initialized
+                                                            </span>
+                                                        }
+                                                        else if (request.Status == 5)
+                                                        {
+                                                            <span class="badge badge-danger">
+                                                                Cancelled
+                                                            </span>
+                                                        }
+                                                    }
+                                                </h4>
+                                            </td>
+                                            <td>@request.Value.ToString("C")</td>
+                                            <td><a class="btn btn-info" asp-controller="Events" asp-action="Index" asp-route-id="@request.Id"><span class="far fa-clock"></span></a></td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p>No requests</p>
+                }
+            }
+
+        </div>
+    </div>
+</div>
